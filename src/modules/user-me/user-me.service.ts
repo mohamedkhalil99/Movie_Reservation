@@ -11,11 +11,11 @@ const saltRounds = 10;
 export class UserMeService {
   constructor(@Inject('USER_REPOSITORY')private userRepo: Repository<User>,) {}
   
-  async getProfile(userId: number): Promise<{ status: number; data: User }> {
+  async getProfile(userId: number): Promise<{ status: number; data: Record<string, unknown> }> {
     if(!userId){throw new NotFoundException('User not found');}
     const user = await this.userRepo.findOne({ where: { id: userId } });
     if (!user) {throw new NotFoundException('User not found');}
-    return {status: 200, data: user};
+    return {status: 200, data: instanceToPlain(user) as Record<string, unknown>,};
   }
 
   async updateProfile(userId: number, updateUserDto: UpdateUserDto): Promise<{ status: number; message: string; data: Record<string, unknown> }> {

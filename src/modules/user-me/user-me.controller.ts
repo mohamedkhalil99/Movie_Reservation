@@ -11,8 +11,8 @@ export class UserMeController {
 
   //Desc: User can Get his/her profile
   //Route: GET api/v1/me
-  //Access: Private (user)
-  @Roles(['user'])
+  //Access: Private (admin, customer)
+  @Roles(['admin', 'customer'])
   @Get()
   getProfile(@Req() req: { user: { id: number } }) {
     const userId = req.user.id;
@@ -21,8 +21,8 @@ export class UserMeController {
 
   //Desc: User can Update his/her profile
   //Route: PATCH api/v1/me
-  //Access: Private (user)
-  @Roles(['user'])
+  //Access: Private (customer only)
+  @Roles(['customer'])
   @Patch()
   updateProfile(@Req() req: { user: { id: number } }, @Body(new ValidationPipe({whitelist:true, forbidNonWhitelisted:true})) updateUserDto: UpdateUserDto) {
     const userId = req.user.id;
@@ -31,8 +31,8 @@ export class UserMeController {
 
   //Desc: User can UnActive his/her profile
   //Route: DELETE api/v1/me
-  //Access: Private (user)
-  @Roles(['user'])
+  //Access: Private (customer only)
+  @Roles(['customer'])
   @Delete()
   deActivateProfile(@Req() req: { user: { id: number } }) {
     const userId = req.user.id;
